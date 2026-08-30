@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mad Redwood</title>
+
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+    :root {
+        --bg-page: #fdfdfd;
+        --text-primary: #18181b;
+        --text-secondary: #71717a;
+        --text-body: #27272a;
+        --brand-accent: #9a1e1e;
+        --brand-light: #fef2f2;
+        --border-divider: #e4e4e7;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: var(--bg-page);
+        color: var(--text-body);
+        font-family: 'Newsreader', Georgia, serif;
+        font-size: 1.15rem;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Sticky Minimal Navbar */
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background-color: rgba(253, 253, 253, 0.9);
+        border-bottom: 1px solid var(--border-divider);
+    }
+
+    .nav-container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .nav-brand {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--brand-accent);
+        text-decoration: none;
+        letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 1.25rem;
+        list-style: none;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.15s ease;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .nav-link:hover {
+        color: var(--text-primary);
+    }
+
+    .nav-link.active {
+        color: var(--brand-accent);
+        font-weight: 600;
+    }
+
+    /* Wide Feed Container */
+    .feed-container {
+        max-width: 860px;
+        margin: 2.5rem auto 4.5rem auto;
+        padding: 0 1.5rem;
+    }
+
+    .feed-header {
+        margin-bottom: 2.25rem;
+    }
+
+    .feed-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: -0.03em;
+    }
+
+    /* Horizontal Entry Split (Text Left, Image Right) */
+    .feed-entry {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 2.5rem;
+        padding-bottom: 2.25rem;
+        margin-bottom: 2.25rem;
+        border-bottom: 1px solid var(--border-divider);
+    }
+
+    .feed-entry:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    /* Left Text Column */
+    .entry-content {
+        flex: 1;
+        min-width: 0; /* Prevents text overflow in flex layout */
+    }
+
+    .entry-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.35rem;
+    }
+
+    .category-tag {
+        font-weight: 600;
+        color: var(--brand-accent);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.725rem;
+    }
+
+    .meta-dot {
+        font-size: 0.6rem;
+        color: var(--text-secondary);
+    }
+
+    .entry-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.6rem;
+    }
+
+    .entry-title a {
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.15s ease;
+    }
+
+    .entry-title a:hover {
+        color: var(--brand-accent);
+    }
+
+    .entry-excerpt p {
+        font-family: 'Newsreader', Georgia, serif;
+        font-size: 1.1rem;
+        color: var(--text-body);
+        line-height: 1.65;
+        margin-bottom: 0.75rem;
+    }
+
+    .read-more-link {
+        display: inline-block;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--brand-accent);
+        text-decoration: none;
+    }
+
+    .read-more-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Right Square-ish Thumbnail */
+    .entry-image-wrapper {
+        flex-shrink: 0;
+        width: 175px;
+        height: 175px;
+        border-radius: 6px;
+        overflow: hidden;
+        background-color: #f4f4f5;
+    }
+
+    .entry-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.25s ease;
+    }
+
+    .entry-image-wrapper:hover .entry-image {
+        transform: scale(1.04);
+    }
+
+    .empty-state {
+        padding: 3rem 0;
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+
+    /* Footer */
+    .site-footer {
+        border-top: 1px solid var(--border-divider);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    /* Responsive Stacking on Small Screens */
+    @media (max-width: 680px) {
+        .feed-entry {
+            flex-direction: column-reverse;
+            gap: 1.25rem;
+        }
+
+        .entry-image-wrapper {
+            width: 100%;
+            height: 200px;
+        }
+
+        .nav-container {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">The Mad Redwood</a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/video-games" class="nav-link">Video Games</a></li>
+                <li><a href="/movies-tv" class="nav-link">Movies/TV</a></li>
+                <li><a href="/literature" class="nav-link">Literature</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Feed -->
+    <main class="feed-container">
+        <header class="feed-header">
+            <h1 class="feed-title">Latest Essays</h1>
+        </header>
+
+        <div class="feed-list">
+            <article class="feed-entry">
+    <div class="entry-content">
+        <div class="entry-meta">
+            <span class="category-tag">Literature</span>
+            <span class="meta-dot">&bull;</span>
+            <time class="entry-date">August 30, 2026</time>
+        </div>
+
+        <h2 class="entry-title">
+            <a href="/literature/litdoc.html">LitDoc</a>
+        </h2>
+
+        <div class="entry-excerpt">
+            <p>WHAT IF THE LITERATURE ABSTRACT IS INSANELY LONG AND CONVOLUTED AHOEG UWEG Owu hWEUIF IFUOAUBfoie UBFWiUF SbufjenbliufB SEFUIb eluiBSEU F BWEUfg iuewfubsdkfjgu uhA I Ufl jsdnbk jhsdb fjkflWEUglwbghjgkij ki Neihefnsg vb</p>
+        </div>
+
+        <div class="entry-footer">
+            <a href="/literature/litdoc.html" class="read-more-link">
+                Continue reading &rarr;
+            </a>
+        </div>
+    </div>
+
+    <div class="entry-image-wrapper">
+    <a href="/literature/litdoc.html">
+        <img src="/literature/litdoc.png" alt="LitDoc" class="entry-image" loading="lazy" />
+    </a>
+</div>
+</article>
+<article class="feed-entry">
+    <div class="entry-content">
+        <div class="entry-meta">
+            <span class="category-tag">Video Games</span>
+            <span class="meta-dot">&bull;</span>
+            <time class="entry-date">August 30, 2026</time>
+        </div>
+
+        <h2 class="entry-title">
+            <a href="/video-games/sampledoc.html">SampleDoc</a>
+        </h2>
+
+        <div class="entry-excerpt">
+            <p>Just a sample to try things out for video-games</p>
+        </div>
+
+        <div class="entry-footer">
+            <a href="/video-games/sampledoc.html" class="read-more-link">
+                Continue reading &rarr;
+            </a>
+        </div>
+    </div>
+
+    <div class="entry-image-wrapper">
+    <a href="/video-games/sampledoc.html">
+        <img src="/video-games/sampledoc.png" alt="SampleDoc" class="entry-image" loading="lazy" />
+    </a>
+</div>
+</article>
+<article class="feed-entry">
+    <div class="entry-content">
+        <div class="entry-meta">
+            <span class="category-tag">Movies/TV</span>
+            <span class="meta-dot">&bull;</span>
+            <time class="entry-date">August 30, 2026</time>
+        </div>
+
+        <h2 class="entry-title">
+            <a href="/movies-tv/sampledoc.html">SampleDoc</a>
+        </h2>
+
+        <div class="entry-excerpt">
+            <p>Just a sample to try things out for movies-tv</p>
+        </div>
+
+        <div class="entry-footer">
+            <a href="/movies-tv/sampledoc.html" class="read-more-link">
+                Continue reading &rarr;
+            </a>
+        </div>
+    </div>
+
+    <div class="entry-image-wrapper">
+    <a href="/movies-tv/sampledoc.html">
+        <img src="/movies-tv/sampledoc.png" alt="SampleDoc" class="entry-image" loading="lazy" />
+    </a>
+</div>
+</article>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2024 - 2026 The Mad Redwood. All rights reserved.</p>
+    </footer>
+</body>
+</html>
